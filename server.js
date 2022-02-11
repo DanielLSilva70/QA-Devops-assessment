@@ -33,7 +33,7 @@ app.delete('/api/robots', () => {
     rollbar.info('someone tried to delete a robot')
 })
 
-app.post('/api/robots', () => {
+app.post('/api/add/robots', () => {
     rollbar.log('someone tried to add a robot')
 })
 // app.get('api/robots')
