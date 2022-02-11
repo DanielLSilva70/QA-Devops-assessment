@@ -11,6 +11,7 @@ app.use('/js', express.static(path.join(__dirname, 'public/index.js')));
 app.use('/styles', express.static(path.join(__dirname, 'public/index.css')));
 
 var Rollbar = require('rollbar')
+const res = require('express/lib/response')
 var rollbar = new Rollbar({
   accessToken: process.env.ROLLBAR_TOKEN,
   captureUncaught: true,
@@ -28,7 +29,14 @@ app.get('/api/cats', () => {
     rollbar.error('cats does not exist')
 })
 
-app.get('api/robots')
+app.delete('/api/robots', () => {
+    rollbar.info('someone tried to delete a robot')
+})
+
+app.post('/api/robots', () => {
+    rollbar.log('someone tried to add a robot')
+})
+// app.get('api/robots')
 
 app.get('/api/robots', (req, res) => {
     try {
