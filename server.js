@@ -10,7 +10,25 @@ app.use(express.static('public'))
 app.use('/js', express.static(path.join(__dirname, 'public/index.js')));
 app.use('/styles', express.static(path.join(__dirname, 'public/index.css')));
 
+var Rollbar = require('rollbar')
+var rollbar = new Rollbar({
+  accessToken: process.env.ROLLBAR_TOKEN,
+  captureUncaught: true,
+  captureUnhandledRejections: true,
+})
 
+// record a generic message and send it to Rollbar
+rollbar.log('Hello world!')
+
+app.get('/api/robots', () => {
+    rollbar.info('get robots')
+})
+
+app.get('/api/cats', () => {
+    rollbar.error('cats does not exist')
+})
+
+app.get('api/robots')
 
 app.get('/api/robots', (req, res) => {
     try {
